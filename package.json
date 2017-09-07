@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/rockywu/use-icons#readme",
   "dependencies": {
+    "lodash": "^4.17.4",
     "spritesmith": "^3.1.1",
     "string_decoder": "^1.0.3",
     "svg2ttf": "^4.1.0",

@@ -184,8 +184,8 @@ exports.resetViewBoxSize = function resetViewBoxSize(content) {
     var viewBoxRE = /viewBox=[^ ]+\s+[^ "']+\s+([^ "']+)\s+([^ "']+)/;
     var widthRE = /<svg [^>]+width=([0-9\."]+)[^>]+>/;
     var heightRE = /<svg [^>]+height=([0-9\."]+)[^>]+>/;
-    var replaceWidthRE = /width="[0-9\.]+"/;
-    var replaceHeightRE = /height="[0-9\.]+"/;
+    var replaceWidthRE = /width="[0-9\.]+(px)?"/;
+    var replaceHeightRE = /height="[0-9\.]+(px)?"/;
     var w = 0, h = 0;
     //重新设置画布
     content.replace(viewBoxRE, function() {
@@ -194,10 +194,10 @@ exports.resetViewBoxSize = function resetViewBoxSize(content) {
     });
     if(w && h) {
         content = content.replace(widthRE, function(v) {
-            return v.replace(replaceWidthRE, "width=\""+w+"\"");
+            return v.replace(replaceWidthRE, "width=\"" + w + "px\"");
         });
         content = content.replace(heightRE, function(v) {
-            return v.replace(replaceHeightRE, "height=\""+w+"\"");
+            return v.replace(replaceHeightRE, "height=\"" + h + "px\"");
         });
     }
     return content;
