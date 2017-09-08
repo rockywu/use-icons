@@ -7,7 +7,7 @@ var svg2icons = require("./src/svg2icons");
 //图片雪碧图生成器
 var pic2icons = require("./src/pic2icons");
 //实用工具
-var utils = require("utils");
+var utils = require("./src/utils");
 
 module.exports = {
     svg2icons : svg2icons.generator,

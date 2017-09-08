@@ -4,148 +4,131 @@
     <meta charset="utf-8"/>
     <title>IconFont</title>
     <style>
-        *{margin: 0;padding: 0;list-style: none;}
-        /** 清除内外边距 **/
-        body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */
-        dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
-        pre, /* text formatting elements 文本格式元素 */
-        form, fieldset, legend, button, input, textarea, /* form elements 表单元素 */
-        th, td /* table elements 表格元素 */ {
-            margin: 0;
-            padding: 0;
-        }
-
-        /** 设置默认字体 **/
-        body,
-        button, input, select, textarea /* for ie */ {
-            font: 12px/1.5 tahoma, arial, \5b8b\4f53, sans-serif;
-        }
-        h1, h2, h3, h4, h5, h6 { font-size: 100%; }
-        address, cite, dfn, em, var { font-style: normal; } /* 将斜体扶正 */
-        code, kbd, pre, samp { font-family: courier new, courier, monospace; } /* 统一等宽字体 */
-        small { font-size: 12px; } /* 小于 12px 的中文很难阅读，让 small 正常化 */
-
-        /** 重置列表元素 **/
-        ul, ol { list-style: none; }
-
-        /** 重置文本格式元素 **/
-        a { text-decoration: none; }
-        a:hover { text-decoration: underline; }
-
-
-        /** 重置表单元素 **/
-        legend { color: #000; } /* for ie6 */
-        fieldset, img { border: 0; } /* img 搭车：让链接里的 img 无边框 */
-        button, input, select, textarea { font-size: 100%; } /* 使得表单元素在 ie 下能继承字体大小 */
-        /* 注：optgroup 无法扶正 */
-
-        /** 重置表格元素 **/
-        table { border-collapse: collapse; border-spacing: 0; }
-
-        /* 清除浮动 */
-        .ks-clear:after, .clear:after {
-            content: '\20';
-            display: block;
-            height: 0;
-            clear: both;
-        }
-        .ks-clear, .clear {
-            *zoom: 1;
-        }
-
-        .main {padding: 30px 100px;}
-        .main h1{font-size:36px; color:#333; text-align:left;margin-bottom:30px; border-bottom: 1px solid #eee;}
-
-        .helps{margin-top:40px;}
-        .helps pre{
-            padding:20px;
-            margin:10px 0;
-            border:solid 1px #e7e1cd;
-            background-color: #fffdef;
-            overflow: auto;
-        }
-
-        .icon_lists li{
-            float:left;
-            width: 100px;
-            height:180px;
-            text-align: center;
-        }
-        .icon_lists .icon{
-            font-size: 42px;
-            line-height: 100px;
-            margin: 10px 0;
-            color:#333;
-            -webkit-transition: font-size 0.25s ease-out 0s;
-            -moz-transition: font-size 0.25s ease-out 0s;
-            transition: font-size 0.25s ease-out 0s;
-
-        }
-        .icon_lists .icon:hover{
-            font-size: 100px;
-        }
+        *{margin:0;padding:0;list-style:none}body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,        dl,dt,dd,ul,ol,li,        pre,        form,fieldset,legend,button,input,textarea,        th,td {margin:0;padding:0}body,button,input,select,textarea {font:12px/1.5 tahoma, arial, \5b8b\4f53, sans-serif}h1,h2,h3,h4,h5,h6{font-size:100%}address,cite,dfn,em,var{font-style:normal}code,kbd,pre,samp{font-family:courier new, courier, monospace}small{font-size:12px}ul,ol{list-style:none}a{text-decoration:none}a:hover{text-decoration:underline}legend{color:#000}fieldset,img{border:0}button,input,select,textarea{font-size:100%}table{border-collapse:collapse;border-spacing:0}.ks-clear:after,.clear:after{content:'\20';display:block;height:0;clear:both}.ks-clear,.clear{*zoom:1}.main{padding:30px 100px}.main h1{font-size:36px;color:#333;text-align:left;margin-bottom:30px;border-bottom:1px solid #eee}.helps{margin-top:40px}.helps pre{padding:20px;margin:10px 0;border:solid 1px #e7e1cd;background-color:#fffdef;overflow:auto}.icon_lists li{float:left;width:100px;height:180px;text-align:center}.icon_lists .icon{font-size:42px;line-height:100px;margin:10px 0;color:#333;-webkit-transition:font-size .25s ease-out 0s;-moz-transition:font-size .25s ease-out 0s;transition:font-size .25s ease-out 0s}.icon_lists .icon:hover{font-size:100px}
     </style>
-    <link rel="stylesheet" href="iconfont.css">
-</head>
-
-<body>
-<div class="main">
-    <h1>IconFont 图标</h1>
-    <ul class="icon_lists clear">
-        <% _.each(fonts, function(font) { %>
-        <li>
-            <i class="icon <%= className %> ">&#x<%= font.code %>;</i>
-            <div class="name"><%= font.name %></div>
-            <div class="code">&amp;#x<%= font.code%>;</div>
-            <div class="fontclass">.<%= iconPrefix%>-<%= font.classname %></div>
-        </li>
-        <% }) %>
-    </ul>
-    <div class="helps">
-        第一步：使用font-face声明字体
-        <pre>
-@font-face {font-family: '<%= fontName %>';
-  src: url('<%= fontName %>.eot'); /* IE9*/
-  src: url('<%= fontName %>.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('<%= fontName %>.woff2') format('woff2'),/* chrome、firefox, the latest version*/
-  url('<%= fontName %>.woff') format('woff'), /* chrome、firefox */
-  url('<%= fontName %>.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-  url('<%= fontName %>.svg#iconfont') format('svg'); /* iOS 4.1- */
-}</pre>
-        第二步：定义使用iconfont的样式(use iconfont.css)
-        <pre>
+    <style>
+/**
+ * 字体定义
+ */<% fontOptions.forEach(function(option) { %>
+@font-face {font-family: "<%= option.family %>";
+    src: url('<%= fontBaseUri + fileName %>.eot'); /* IE9*/
+    src: url('<%= fontBaseUri + fileName %>.eot#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('<%= fontBaseUri + fileName %>.woff2') format('woff2'),/* chrome、firefox, the latest version*/
+    url('<%= fontBaseUri + fileName %>.woff') format('woff'), /* chrome, firefox */
+    url('<%= fontBaseUri + fileName %>.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+    url('<%= fontBaseUri + fileName %>.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
 /*
- * 1、在支持css3游览器。建议使用，eg: &lt;i class="<%= iconPrefix%>-eb01"&gt;&lt;/i&gt;
- * 2、在支持伪类:before,:after游览器下。建议使用，eg:&lt;i class="<%= className %>  <%= iconPrefix%>-eb01"&gt;&lt;/i&gt;
- * 3、低版本游览器模式（如：IE6,IE7,IE8...）。建议使用，eg:&lt;i class="<%= className %> "&gt;&amp;#xeb01&lt;/i&gt;
+ * 1、在支持css3游览器。建议使用，eg: <div class="<%= classPrefix + icons[0].classname %>"></div>
+ * 2、在支持伪类:before,:after游览器下。建议使用，eg:<div class="<%= option.classname  %>  <%= classPrefix + icons[0].classname %>"></div>
+ * 3、低版本游览器模式（如：IE6,IE7,IE8...）。建议使用，eg:<div class="<%= option.classname  %> ">&#x<%= icons[0].unicode%></div>
  */
-/* 兼容所有版本写法 */
-.<%= className %> {
-    font-family:"<%= fontName %>" !important;
+.<%= option.classname %> {
+    font-family:"<%= option.family %>" !important;
     font-size:16px;
     font-style:normal;
     -webkit-font-smoothing: antialiased;
     -webkit-text-stroke-width: 0.2px;
     -moz-osx-font-smoothing: grayscale;
 }
-[class*="<%= iconPrefix%>-"]:before {
-    font-family:"<%= fontName %>" !important;
+/**
+ * 兼容css3选择器
+ */
+[class*="<%= classPrefix %>"]:before {
+    font-family:"<%= fontOptions[0].family %>" !important;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}
+<% }) %>
+/**
+ * 字体classname
+ */ <% icons.forEach(function(icon) { %>
+.<%= classPrefix + icon.classname %>:before {
+    content:"<%='\\' + icon.unicode%>"
+}<% }) %>
+    </style>
+</head>
+<body>
+<div class="main">
+    <h1>IconFont 图标</h1>
+    <ul class="icon_lists clear">
+        <% icons.forEach(function(icon) { %>
+        <li>
+            <i class="icon <%= fontOptions[0].classname %> ">&#x<%= icon.unicode %>;</i>
+            <div class="name"><%= icon.classname %></div>
+            <div class="code">&amp;#x<%= icon.unicode%>;</div>
+            <div class="fontclass">.<%= classPrefix + icon.classname %></div>
+        </li>
+        <% }) %>
+    </ul>
+    <div class="helps">
+        第一步：使用font-face声明字体
+<% fontOptions.forEach(function(option) { %>
+<pre>
+//模式：<%= option.classname %>
+@font-face {font-family: "<%= option.family %>";
+    src: url('<%= fontBaseUri + fileName %>.eot'); /* IE9*/
+    src: url('<%= fontBaseUri + fileName %>.eot#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('<%= fontBaseUri + fileName %>.woff2') format('woff2'),/* chrome、firefox, the latest version*/
+    url('<%= fontBaseUri + fileName %>.woff') format('woff'), /* chrome, firefox */
+    url('<%= fontBaseUri + fileName %>.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+    url('<%= fontBaseUri + fileName %>.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+/*
+ * 1、在支持css3游览器。建议使用，eg: &lt;i class="<%= classPrefix + icons[0].classname%>"&gt;&lt;/i&gt;
+ * 2、在支持伪类:before,:after游览器下。建议使用，eg:&lt;i class="<%= fontOptions[0].classname %>  <%= classPrefix + icons[0].classname%>"&gt;&lt;/i&gt;
+ * 3、低版本游览器模式（如：IE6,IE7,IE8...）。建议使用，eg:&lt;i class="<%= fontOptions[0].classname  %> "&gt;&amp;#x<%= icons[0].unicode%>&lt;/i&gt;
+ */
+.<%= option.classname %> {
+    font-family:"<%= option.family %>" !important;
+    font-size:16px;
     font-style:normal;
     -webkit-font-smoothing: antialiased;
     -webkit-text-stroke-width: 0.2px;
     -moz-osx-font-smoothing: grayscale;
 }
 </pre>
+<% }) %>
+        第二步：定义使用iconfont的样式(use <%= fileName%>.css)
+<% fontOptions.forEach(function(option) { %>
+<pre>
+/**
+ * 模式:<%= option.classname%>
+ * 兼容所有版本写法
+ */
+.<%= option.classname %> {
+    font-family:"<%= option.family %>" !important;
+    font-size:16px;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}
+[class*="<%= classPrefix%>"]:before {
+    font-family:"<%= option.family %>" !important;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}
+</pre>
+<% }) %>
         第三步：挑选相应图标并获取字体编码，应用于页面
-        <pre>//支持css3
-&lt;i class="<%= iconPrefix%>-eb01"&gt;&lt;/i&gt;
+<% fontOptions.forEach(function(option) { %>
+<pre>
+//模式:<%= option.classname%>
+//支持css3
+&lt;i class="<%= classPrefix + icons[0].classname %>"&gt;&lt;/i&gt;
+
+//支持IE9+
+&lt;i class="<%= option.classname %> <%= classPrefix + icons[0].classname %>"&gt;&lt;/i&gt;
+
+//支持IE6,7,8+
+&lt;i class="<%= option.classname %>"&gt;&amp;#x<%= icons[0].unicode%>&lt;/i&gt;
 </pre>
-        <pre>//支持IE9+
-&lt;i class="<%= className %> <%= iconPrefix%>-eb01"&gt;&lt;/i&gt;
-</pre>
-        <pre>//支持IE6,7,8+
-&lt;i class="<%= className %>"&gt;&amp;#xeb01&lt;/i&gt;
-</pre>
+<% }) %>
     </div>
 </div>
 </body>

@@ -68,6 +68,7 @@ exports.generator = function generator(data, options, callback) {
         }
     }, function(err, rs) {
         rs = rs || {};
+        //create css ,image and demo.html
         var $SpriteImageName = options.imageName || "sprites.png";
         var $SpriteImageUrl = options.imageUrl || $SpriteImageName;
         var $SpritePrefix = options.prefixClass || "sprites-";
@@ -100,6 +101,5 @@ exports.generator = function generator(data, options, callback) {
         }
     });
 }
-
 
 module.exports = exports;
