@@ -4,13 +4,20 @@
   "description": "Provide svg  to iconfont and png/jpg to sprity-image",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "copyfile": "rm -rf test/out/* && rm -rf build && mkdir -p build && cp -r test templates src package.json README.md .npmignore index.js LICENSE build/",
+    "patch" : "npm version patch  && npm run copyfile && cd build/ && npm publish",
+    "test": "node test/fonts-build.js && node test/sprites-build.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rockywu/use-icons.git"
   },
-  "keywords": [],
+  "keywords": [
+      "icons",
+      "iconfonts",
+      "sprity-image",
+      "spritesmith-plugin"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
