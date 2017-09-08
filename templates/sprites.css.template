@@ -3,7 +3,7 @@
     background-repeat:no-repeat;
 }
 <% $SpriteImages.forEach(function($sprite) { %>
-.<%= $SpritePrefix + "--" + $sprite.classname %> {
+.<%= $SpritePrefix + $sprite.classname %> {
     width:<%= $sprite.width%>px;
     height:<%= $sprite.height%>px;
     background-position: <%= -1*$sprite.x %>px <%= -1*$sprite.y %>px;

@@ -1,19 +1,21 @@
 /**
  *
- *
+ * 字体生成demo
  * Created by rocky on 2017/9/8.
  */
 var useIcons = require("../index");
 var fs = require("fs");
 var ic = __dirname + "/icons/";
 var out = __dirname + "/out/";
-useIcons.svg2icons([{
-    file : ic + "a1.svg"
-},{
-    file : ic + "a2.svg"
-}, {
-    file : ic + "a3.svg"
-}], {
+var list = fs.readdirSync(ic);
+list = list.filter(function(name) {
+    return /\.svg$/.test(name);
+}).map(function(v) {
+    return {
+        file : ic + v
+    };
+});
+useIcons.svg2icons(list, {
     prependUnicode : true,
     resetViewBoxSize : true,
     fontHeight : 1000,

@@ -3,7 +3,7 @@
  * Created by rocky on 2017/8/25.
  */
 var Spritesmith = require("spritesmith");
-var _ = require("lodash");
+var template = require("lodash.template");
 var fs = require("fs");
 var p = __dirname + "/../templates/";
 
@@ -31,14 +31,58 @@ function getHtmlTemplate() {
     return _htmlTpl;
 }
 
+/**
+ * 初始化数据
+ * @param data
+ * @return {*}
+ */
+function initData(data, coordinates) {
+    var tmp = null;
+    return data.map(function(v) {
+        tmp = coordinates[v.file] || null;
+        if(tmp) {
+            tmp.classname = v.classname;
+        }
+        return tmp;
+    }).filter(function(v) {
+        return v !== null;
+    });
+}
 
+/**
+ * 获得例子
+ * @param data
+ * @param options
+ */
+function getDemo($SpriteImages, options, imageContent) {
+    //create css ,image and demo.html
+    var $SpriteImageName = options.imageName || "sprites.png";
+    var $SpriteImageUrl = options.imageUrl || $SpriteImageName;
+    var $SpritePrefix = options.classPrefix || "sprites-";
+    var $SpriteMain = options.classMain || "sprites";
+    var templateData = {
+        $SpriteImages : $SpriteImages,
+        $SpriteImageName : $SpriteImageName,
+        $SpriteImageUrl : $SpriteImageUrl,
+        $SpriteMain : $SpriteMain,
+        $SpritePrefix : $SpritePrefix
+    };
+    return [
+        //图片资源
+        {fileName : $SpriteImageName.replace(/\.(.+)$/, ""), fileType : RegExp.$1, content : imageContent},
+        //获取css模板
+        {fileName : "sprites", fileType : "css", content : template(getCssTemplate())(templateData)},
+        //获取html模板
+        {fileName : "sprites", fileType : "html", content : template(getHtmlTemplate())(templateData)}
+    ];
+}
 
 /**
  * 雪碧图生成器
  * @param data
  * {
  *      classname : "样式名",
- *      src : "",文件路径
+ *      file : "",文件路径
  * }
  * @param options
  *  {
@@ -48,13 +92,13 @@ function getHtmlTemplate() {
  *      sort : false,//是否排序，默认为false
  *      imageName : "", //雪碧图图片文件名 默认为sprites.png
  *      imageUrl : "",//background-image:url图片对外路径
- *      mainClass : "class-main", //主样式名
- *      prefixClass : "" //样式前缀
+ *      classMain : "class-main", //主样式名
+ *      classPrefix : "" //样式前缀
  *  }
  *  @param callback
  */
 exports.generator = function generator(data, options, callback) {
-    var files = data.map(function(v) { return v.src});
+    var files = data.map(function(v) { return v.file});
     options = options || {};
     Spritesmith.run({
         src : files,
@@ -67,38 +111,13 @@ exports.generator = function generator(data, options, callback) {
             sort : options.sort === true
         }
     }, function(err, rs) {
-        rs = rs || {};
-        //create css ,image and demo.html
-        var $SpriteImageName = options.imageName || "sprites.png";
-        var $SpriteImageUrl = options.imageUrl || $SpriteImageName;
-        var $SpritePrefix = options.prefixClass || "sprites-";
-        var $SpriteMain = options.mainClass || "sprites";
-        var $SpriteImages = [];
-        data.forEach(function(row) {
-            if(rs.coordinates[row.src]) {
-                $SpriteImages.push(_.extend({}, rs.coordinates[row.src], {
-                    classname : row.classname
-                }));
-            }
-        });
-        var templateData = {
-            $SpriteImages : $SpriteImages,
-            $SpriteImageName : $SpriteImageName,
-            $SpriteImageUrl : $SpriteImageUrl,
-            $SpriteMain : $SpriteMain,
-            $SpritePrefix : $SpritePrefix
-        };
         if(err) {
-            callback(err);
-        } else {
-            callback(null, [
-                {name : $SpriteImageName, content : rs.image},
-                //获取css模板
-                {name : "sprite.css", content : _ .template(getCssTemplate())(templateData)},
-                //获取html模板
-                {name : "sprite.html", content : _.template(getHtmlTemplate())(templateData)}
-            ]);
+            return callback(err);
         }
+        rs = rs || {};
+        data = initData(data, rs.coordinates);
+        console.log("Sprites created");
+        callback(null, getDemo(data, options, rs.image));
     });
 }
 

@@ -3,7 +3,7 @@
  */
 var fs = require("fs");
 var utils = require("./utils");
-var _ = require("lodash");
+var template = require("lodash.template");
 var p = __dirname + "/../templates/";
 
 /**
@@ -91,11 +91,11 @@ function getDemo(data, options) {
     return [{
         fileType : "css",
         fileName : options.fileName,
-        content : _.template(cssTpl)(source)
+        content : template(cssTpl)(source)
     }, {
         fileType : "html",
         fileName : options.fileName,
-        content : _.template(htmlTpl)(source)
+        content : template(htmlTpl)(source)
     }];
 }
 
@@ -149,7 +149,7 @@ exports.generator = function generator(data, options, callback) {
             files = files.map(function(v) {
                 v.fileName = options.fileName;
                 return v;
-            })
+            });
             callback(null, files.concat(getDemo(data, options)));
         });
     } catch(e) {

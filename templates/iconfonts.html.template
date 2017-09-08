@@ -4,12 +4,16 @@
     <meta charset="utf-8"/>
     <title>IconFont</title>
     <style>
-        *{margin:0;padding:0;list-style:none}body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,        dl,dt,dd,ul,ol,li,        pre,        form,fieldset,legend,button,input,textarea,        th,td {margin:0;padding:0}body,button,input,select,textarea {font:12px/1.5 tahoma, arial, \5b8b\4f53, sans-serif}h1,h2,h3,h4,h5,h6{font-size:100%}address,cite,dfn,em,var{font-style:normal}code,kbd,pre,samp{font-family:courier new, courier, monospace}small{font-size:12px}ul,ol{list-style:none}a{text-decoration:none}a:hover{text-decoration:underline}legend{color:#000}fieldset,img{border:0}button,input,select,textarea{font-size:100%}table{border-collapse:collapse;border-spacing:0}.ks-clear:after,.clear:after{content:'\20';display:block;height:0;clear:both}.ks-clear,.clear{*zoom:1}.main{padding:30px 100px}.main h1{font-size:36px;color:#333;text-align:left;margin-bottom:30px;border-bottom:1px solid #eee}.helps{margin-top:40px}.helps pre{padding:20px;margin:10px 0;border:solid 1px #e7e1cd;background-color:#fffdef;overflow:auto}.icon_lists li{float:left;width:100px;height:180px;text-align:center}.icon_lists .icon{font-size:42px;line-height:100px;margin:10px 0;color:#333;-webkit-transition:font-size .25s ease-out 0s;-moz-transition:font-size .25s ease-out 0s;transition:font-size .25s ease-out 0s}.icon_lists .icon:hover{font-size:100px}
+        *{margin:0;padding:0;list-style:none}body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td {margin:0;padding:0}body,button,input,select,textarea {font:12px/1.5 tahoma, arial, \5b8b\4f53, sans-serif}h1,h2,h3,h4,h5,h6{font-size:100%}address,cite,dfn,em,var{font-style:normal}code,kbd,pre,samp{font-family:courier new, courier, monospace}small{font-size:12px}ul,ol{list-style:none}a{text-decoration:none}a:hover{text-decoration:underline}legend{color:#000}fieldset,img{border:0}button,input,select,textarea{font-size:100%}table{border-collapse:collapse;border-spacing:0}.ks-clear:after,.clear:after{content:'\20';display:block;height:0;clear:both}.ks-clear,.clear{*zoom:1}.main{padding:30px 100px}.main h1{font-size:36px;color:#333;text-align:left;margin-bottom:30px;border-bottom:1px solid #eee}.helps{margin-top:40px}.helps pre{padding:20px;margin:10px 0;border:solid 1px #e7e1cd;background-color:#fffdef;overflow:auto}
+    </style>
+    <style>
+        .icon_lists li{float:left;width:100px;height:180px;text-align:center}.icon_lists .icon{font-size:42px;line-height:100px;margin:10px 0;color:#333;-webkit-transition:font-size .25s ease-out 0s;-moz-transition:font-size .25s ease-out 0s;transition:font-size .25s ease-out 0s}.icon_lists .icon:hover{font-size:100px}
     </style>
     <style>
 /**
  * 字体定义
- */<% fontOptions.forEach(function(option) { %>
+ */
+<% fontOptions.forEach(function(option) { %>
 @font-face {font-family: "<%= option.family %>";
     src: url('<%= fontBaseUri + fileName %>.eot'); /* IE9*/
     src: url('<%= fontBaseUri + fileName %>.eot#iefix') format('embedded-opentype'), /* IE6-IE8 */
@@ -18,11 +22,6 @@
     url('<%= fontBaseUri + fileName %>.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
     url('<%= fontBaseUri + fileName %>.svg#iconfont') format('svg'); /* iOS 4.1- */
 }
-/*
- * 1、在支持css3游览器。建议使用，eg: <div class="<%= classPrefix + icons[0].classname %>"></div>
- * 2、在支持伪类:before,:after游览器下。建议使用，eg:<div class="<%= option.classname  %>  <%= classPrefix + icons[0].classname %>"></div>
- * 3、低版本游览器模式（如：IE6,IE7,IE8...）。建议使用，eg:<div class="<%= option.classname  %> ">&#x<%= icons[0].unicode%></div>
- */
 .<%= option.classname %> {
     font-family:"<%= option.family %>" !important;
     font-size:16px;
@@ -129,6 +128,46 @@
 &lt;i class="<%= option.classname %>"&gt;&amp;#x<%= icons[0].unicode%>&lt;/i&gt;
 </pre>
 <% }) %>
+
+生成css样式
+<pre>
+/**
+ * 字体定义
+ */<% fontOptions.forEach(function(option) { %>
+@font-face {font-family: "<%= option.family %>";
+    src: url('<%= fontBaseUri + fileName %>.eot'); /* IE9*/
+    src: url('<%= fontBaseUri + fileName %>.eot#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('<%= fontBaseUri + fileName %>.woff2') format('woff2'),/* chrome、firefox, the latest version*/
+    url('<%= fontBaseUri + fileName %>.woff') format('woff'), /* chrome, firefox */
+    url('<%= fontBaseUri + fileName %>.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+    url('<%= fontBaseUri + fileName %>.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+.<%= option.classname %> {
+    font-family:"<%= option.family %>" !important;
+    font-size:16px;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}
+/**
+ * 兼容css3选择器
+ */
+[class*="<%= classPrefix %>"]:before {
+    font-family:"<%= fontOptions[0].family %>" !important;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}
+<% }) %>
+/**
+ * 字体classname
+ */ <% icons.forEach(function(icon) { %>
+.<%= classPrefix + icon.classname %>:before {
+    content:"<%='\\' + icon.unicode%>"
+}<% }) %>
+</pre>
     </div>
 </div>
 </body>
