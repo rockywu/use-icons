@@ -101,7 +101,19 @@ function getDemo(data, options) {
 
 /**
  * 字体生成 output iconfonts
- * @param data
+ * @param data data of svg
+ * [
+ *  {
+ *      file: "./aa.svg", //The SVG file path
+ *      unicode : "e001", //font unicode
+ *      classname : "aa", //default unicode, output classname
+ *  },
+ *  {
+ *      content: "<svg>...</svg>", // The content of the SVG file
+ *      unicode : "e002", //font unicode
+ *      classname : "bb", //default unicode, output classname
+ *  },...
+ * ]
  * @param options //reference https://github.com/nfroidure/svgicons2svgfont#new-svgicons2svgfontstreamoptions
  * {
  *    fileName : "", //Type: String default: iconfonts, 字体文件名

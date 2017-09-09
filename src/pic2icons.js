@@ -41,7 +41,7 @@ function initData(data, coordinates) {
     return data.map(function(v) {
         tmp = coordinates[v.file] || null;
         if(tmp) {
-            tmp.classname = v.classname;
+            tmp.classname = v.classname || (v.file.replace(/([\w_-]+)\.[^\.]+$/, "") && RegExp.$1);
         }
         return tmp;
     }).filter(function(v) {
@@ -69,7 +69,7 @@ function getDemo($SpriteImages, options, imageContent) {
     };
     return [
         //图片资源
-        {fileName : $SpriteImageName.replace(/\.(.+)$/, ""), fileType : RegExp.$1, content : imageContent},
+        {fileName : $SpriteImageName.replace(/\.([^\.]+)$/, ""), fileType : RegExp.$1, content : imageContent},
         //获取css模板
         {fileName : "sprites", fileType : "css", content : template(getCssTemplate())(templateData)},
         //获取html模板
