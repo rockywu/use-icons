@@ -67,8 +67,8 @@ function initData(data, coordinates) {
             if(tmp) {
                 tmp.classname = v.classname || (v.file.replace(/([\w_-]+)\.[^\.]+$/, "") && RegExp.$1);
             }
-        } else if(v.content && v.ext && v.classname && Buffer.isBuffer(v.content)) {
-            tmp  = coordinates[v.classname + "." +v.ext];
+        } else if(v.content && v.classname && Buffer.isBuffer(v.content)) {
+            tmp  = coordinates[v.classname + "." + (v.ext || "png")];
             if(tmp) {
                 tmp.classname = v.classname;
             }
@@ -113,6 +113,8 @@ function getDemo($SpriteImages, options, imageContent) {
  * {
  *      classname : "样式名",
  *      file : "",文件路径
+ *      content: "",//图片文件buffer source, 当使用content时，classname必填
+ *      ext : "png",//default png, 当使用content时，classname必填
  * }
  * @param options
  *  {

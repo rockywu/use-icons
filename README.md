@@ -140,6 +140,11 @@ useIcons.svg2icons(svg, svgOptions, function(err, files) {
                 file: "./bb.jpg", //The Image file path
                 classname : "bb", //Default: filename, output classname
             },
+            {
+                content : "...", //The Image binary resources, use image content ,the classname is required
+                classname: "cc", //Required, output classname
+                ext: "png", //Default: png, file ext
+            }
             ...
         ]
         ```
