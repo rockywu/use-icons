@@ -11,6 +11,13 @@ var list = fs.readdirSync(ic);
 list = list.filter(function(name) {
     return /\.(png|jpg|jpeg)$/i.test(name);
 }).map(function(name) {
+    if(name == "feature.png") {
+        return {
+            content : fs.readFileSync(ic + name),
+            classname : "featrue",
+            ext : "png"
+        }
+    }
     return {
         file : ic + name,
         classname : name.replace(/\.(png|jpg|jpeg)$/i, "")

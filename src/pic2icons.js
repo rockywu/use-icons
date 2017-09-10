@@ -6,6 +6,7 @@ var Spritesmith = require("spritesmith");
 var template = require("lodash.template");
 var fs = require("fs");
 var p = __dirname + "/../templates/";
+var Vinyl = require('vinyl');
 
 var _cssTpl = "";
 /**
@@ -32,6 +33,28 @@ function getHtmlTemplate() {
 }
 
 /**
+ * 初始化文件
+ * @param files
+ * @return {*}
+ */
+function initFiles(files) {
+    return files.map(function(v) {
+        if(v.file) {
+            return v.file;
+        } else if(v.content && v.ext && v.classname && Buffer.isBuffer(v.content)) {
+            return new Vinyl({
+                path : v.classname + "." + v.ext,
+                contents : v.content
+            });
+        } else {
+            return null;
+        }
+    }).filter(function(v) {
+        return v !== null;
+    });
+}
+
+/**
  * 初始化数据
  * @param data
  * @return {*}
@@ -39,11 +62,18 @@ function getHtmlTemplate() {
 function initData(data, coordinates) {
     var tmp = null;
     return data.map(function(v) {
-        tmp = coordinates[v.file] || null;
-        if(tmp) {
-            tmp.classname = v.classname || (v.file.replace(/([\w_-]+)\.[^\.]+$/, "") && RegExp.$1);
+        if(v.file) {
+            tmp = coordinates[v.file] || null;
+            if(tmp) {
+                tmp.classname = v.classname || (v.file.replace(/([\w_-]+)\.[^\.]+$/, "") && RegExp.$1);
+            }
+        } else if(v.content && v.ext && v.classname && Buffer.isBuffer(v.content)) {
+            tmp  = coordinates[v.classname + "." +v.ext];
+            if(tmp) {
+                tmp.classname = v.classname;
+            }
         }
-        return tmp;
+        return tmp || null;
     }).filter(function(v) {
         return v !== null;
     });
@@ -98,7 +128,7 @@ function getDemo($SpriteImages, options, imageContent) {
  *  @param callback
  */
 exports.generator = function generator(data, options, callback) {
-    var files = data.map(function(v) { return v.file});
+    var files = initFiles(data);
     options = options || {};
     Spritesmith.run({
         src : files,
