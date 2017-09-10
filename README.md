@@ -186,7 +186,7 @@ useIcons.svg2icons(svg, svgOptions, function(err, files) {
     
  __Demo__
  
-![icons-svg](./icons-svg.png)
+![icons-svg](./icons-sprites.png)
 
 * hex2int(intStr)
     * intStr Number
