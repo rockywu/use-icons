@@ -6,7 +6,7 @@
   "scripts": {
     "copyfile": "rm -rf test/out/* && rm -rf build && mkdir -p build && cp -r test templates src package.json README.md .npmignore index.js LICENSE build/",
     "patch": "npm version patch  && npm run copyfile && cd build/ && npm publish",
-    "test": "node test/fonts-build.js && node test/sprites-build.js"
+    "test": "mkdir -p test/out && node test/fonts-build.js && node test/sprites-build.js"
   },
   "repository": {
     "type": "git",
