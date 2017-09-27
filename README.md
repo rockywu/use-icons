@@ -8,6 +8,8 @@ Provide svg  to iconfont and png/jpg to sprity-image
 
 ## Use
 
+* [sprites demo](./test/sprites-build.js)
+
 ```
 var useIcons = require("use-icons");
 
@@ -19,6 +21,12 @@ var picOptions = {};
 useIcons.pic2icons(pics, picOptions, function(err, files) {
 });
 
+```
+
+* [fonts demo](./test/fonts-build.js)
+
+```
+var useIcons = require("use-icons");
 /**
  * Generate svg icon fonts
  */

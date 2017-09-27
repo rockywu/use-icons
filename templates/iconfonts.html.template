@@ -12,8 +12,11 @@
     <style>
 /**
  * 字体定义
- */
-<% fontOptions.forEach(function(option) { %>
+ */<%
+    classnames = [];familys =[];
+    fontOptions.forEach(function(option) {
+    classnames.push("."+option.classname);
+    familys.push("\"" +option.family +"\""); %>
 @font-face {font-family: "<%= option.family %>";
     src: url('<%= fontBaseUri + fileName %>.eot'); /* IE9*/
     src: url('<%= fontBaseUri + fileName %>.eot#iefix') format('embedded-opentype'), /* IE6-IE8 */
@@ -21,9 +24,9 @@
     url('<%= fontBaseUri + fileName %>.woff') format('woff'), /* chrome, firefox */
     url('<%= fontBaseUri + fileName %>.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
     url('<%= fontBaseUri + fileName %>.svg#iconfont') format('svg'); /* iOS 4.1- */
-}
-.<%= option.classname %> {
-    font-family:"<%= option.family %>" !important;
+} <% }) %>
+<%= classnames.join(",") %> {
+    font-family:<%= familys.join(",") %>  !important;
     font-size:16px;
     font-style:normal;
     -webkit-font-smoothing: antialiased;
@@ -34,16 +37,15 @@
  * 兼容css3选择器
  */
 [class*="<%= classPrefix %>"]:before {
-    font-family:"<%= fontOptions[0].family %>" !important;
+    font-family:<%= familys.join(",") %> !important;
     font-style:normal;
     -webkit-font-smoothing: antialiased;
     -webkit-text-stroke-width: 0.2px;
     -moz-osx-font-smoothing: grayscale;
 }
-<% }) %>
 /**
  * 字体classname
- */ <% icons.forEach(function(icon) { %>
+ */<% icons.forEach(function(icon) { %>
 .<%= classPrefix + icon.classname %>:before {
     content:"<%='\\' + icon.unicode%>"
 }<% }) %>
@@ -64,9 +66,12 @@
     </ul>
     <div class="helps">
         第一步：使用font-face声明字体
-<% fontOptions.forEach(function(option) { %>
 <pre>
-//模式：<%= option.classname %>
+<%
+    classnames = [];familys =[];
+    fontOptions.forEach(function(option) {
+    classnames.push("."+option.classname);
+    familys.push("\"" +option.family +"\""); %>
 @font-face {font-family: "<%= option.family %>";
     src: url('<%= fontBaseUri + fileName %>.eot'); /* IE9*/
     src: url('<%= fontBaseUri + fileName %>.eot#iefix') format('embedded-opentype'), /* IE6-IE8 */
@@ -74,14 +79,14 @@
     url('<%= fontBaseUri + fileName %>.woff') format('woff'), /* chrome, firefox */
     url('<%= fontBaseUri + fileName %>.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
     url('<%= fontBaseUri + fileName %>.svg#iconfont') format('svg'); /* iOS 4.1- */
-}
+} <% }) %>
 /*
  * 1、在支持css3游览器。建议使用，eg: &lt;i class="<%= classPrefix + icons[0].classname%>"&gt;&lt;/i&gt;
  * 2、在支持伪类:before,:after游览器下。建议使用，eg:&lt;i class="<%= fontOptions[0].classname %>  <%= classPrefix + icons[0].classname%>"&gt;&lt;/i&gt;
  * 3、低版本游览器模式（如：IE6,IE7,IE8...）。建议使用，eg:&lt;i class="<%= fontOptions[0].classname  %> "&gt;&amp;#x<%= icons[0].unicode%>&lt;/i&gt;
  */
-.<%= option.classname %> {
-    font-family:"<%= option.family %>" !important;
+<%= classnames.join(",") %> {
+    font-family:<%= familys.join(",") %>  !important;
     font-size:16px;
     font-style:normal;
     -webkit-font-smoothing: antialiased;
@@ -89,61 +94,13 @@
     -moz-osx-font-smoothing: grayscale;
 }
 </pre>
-<% }) %>
         第二步：定义使用iconfont的样式(use <%= fileName%>.css)
-<% fontOptions.forEach(function(option) { %>
 <pre>
 /**
- * 模式:<%= option.classname%>
  * 兼容所有版本写法
  */
-.<%= option.classname %> {
-    font-family:"<%= option.family %>" !important;
-    font-size:16px;
-    font-style:normal;
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-stroke-width: 0.2px;
-    -moz-osx-font-smoothing: grayscale;
-}
-[class*="<%= classPrefix%>"]:before {
-    font-family:"<%= option.family %>" !important;
-    font-style:normal;
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-stroke-width: 0.2px;
-    -moz-osx-font-smoothing: grayscale;
-}
-</pre>
-<% }) %>
-        第三步：挑选相应图标并获取字体编码，应用于页面
-<% fontOptions.forEach(function(option) { %>
-<pre>
-//模式:<%= option.classname%>
-//支持css3
-&lt;i class="<%= classPrefix + icons[0].classname %>"&gt;&lt;/i&gt;
-
-//支持IE9+
-&lt;i class="<%= option.classname %> <%= classPrefix + icons[0].classname %>"&gt;&lt;/i&gt;
-
-//支持IE6,7,8+
-&lt;i class="<%= option.classname %>"&gt;&amp;#x<%= icons[0].unicode%>&lt;/i&gt;
-</pre>
-<% }) %>
-
-生成css样式
-<pre>
-/**
- * 字体定义
- */<% fontOptions.forEach(function(option) { %>
-@font-face {font-family: "<%= option.family %>";
-    src: url('<%= fontBaseUri + fileName %>.eot'); /* IE9*/
-    src: url('<%= fontBaseUri + fileName %>.eot#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('<%= fontBaseUri + fileName %>.woff2') format('woff2'),/* chrome、firefox, the latest version*/
-    url('<%= fontBaseUri + fileName %>.woff') format('woff'), /* chrome, firefox */
-    url('<%= fontBaseUri + fileName %>.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-    url('<%= fontBaseUri + fileName %>.svg#iconfont') format('svg'); /* iOS 4.1- */
-}
-.<%= option.classname %> {
-    font-family:"<%= option.family %>" !important;
+<%= classnames.join(",") %> {
+    font-family:<%= familys.join(",") %>  !important;
     font-size:16px;
     font-style:normal;
     -webkit-font-smoothing: antialiased;
@@ -154,16 +111,63 @@
  * 兼容css3选择器
  */
 [class*="<%= classPrefix %>"]:before {
-    font-family:"<%= fontOptions[0].family %>" !important;
+    font-family:<%= familys.join(",") %> !important;
     font-style:normal;
     -webkit-font-smoothing: antialiased;
     -webkit-text-stroke-width: 0.2px;
     -moz-osx-font-smoothing: grayscale;
 }
-<% }) %>
+</pre>
+        第三步：挑选相应图标并获取字体编码，应用于页面
+<pre>
+//支持css3
+&lt;i class="<%= classPrefix + icons[0].classname %>"&gt;&lt;/i&gt;
+
+//支持IE9+
+&lt;i class="<%= fontOptions[0].classname %> <%= classPrefix + icons[0].classname %>"&gt;&lt;/i&gt;
+
+//支持IE6,7,8+
+&lt;i class="<%= fontOptions[0].classname %>"&gt;&amp;#x<%= icons[0].unicode%>&lt;/i&gt;
+</pre>
+
+生成css样式
+<pre>
+/**
+ * 字体定义
+ */<%
+    classnames = [];familys =[];
+    fontOptions.forEach(function(option) {
+    classnames.push("."+option.classname);
+    familys.push("\"" +option.family +"\""); %>
+@font-face {font-family: "<%= option.family %>";
+    src: url('<%= fontBaseUri + fileName %>.eot'); /* IE9*/
+    src: url('<%= fontBaseUri + fileName %>.eot#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('<%= fontBaseUri + fileName %>.woff2') format('woff2'),/* chrome、firefox, the latest version*/
+    url('<%= fontBaseUri + fileName %>.woff') format('woff'), /* chrome, firefox */
+    url('<%= fontBaseUri + fileName %>.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+    url('<%= fontBaseUri + fileName %>.svg#iconfont') format('svg'); /* iOS 4.1- */
+} <% }) %>
+<%= classnames.join(",") %> {
+    font-family:<%= familys.join(",") %>  !important;
+    font-size:16px;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}
+/**
+ * 兼容css3选择器
+ */
+[class*="<%= classPrefix %>"]:before {
+    font-family:<%= familys.join(",") %> !important;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}
 /**
  * 字体classname
- */ <% icons.forEach(function(icon) { %>
+ */<% icons.forEach(function(icon) { %>
 .<%= classPrefix + icon.classname %>:before {
     content:"<%='\\' + icon.unicode%>"
 }<% }) %>
