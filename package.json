@@ -1,6 +1,6 @@
 {
   "name": "use-icons",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "Provide svg  to iconfont and png/jpg to sprity-image",
   "main": "index.js",
   "scripts": {
