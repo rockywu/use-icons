@@ -158,6 +158,9 @@ exports.generator = function generator(data, options, callback) {
     options.fileName = options.fileName || "iconfonts";
     try {
         utils.makeFonts(streams, options || {}, function(err, files) {
+            if(err) {
+                return callback(err);
+            }
             files = files.map(function(v) {
                 v.fileName = options.fileName;
                 return v;

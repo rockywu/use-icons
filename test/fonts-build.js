@@ -29,6 +29,9 @@ useIcons.svg2icons(list, {
         classname : "iconfont"
     }],
 }, function(err, files) {
+    if(err) {
+        return console.log("fonts error:", err);
+    }
     files.forEach(function(file) {
         fs.writeFileSync(out + file.fileName + "." + file.fileType, file.content, "utf8");
     });

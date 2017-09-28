@@ -74,28 +74,32 @@ exports.makeFonts = function makeFonts(iconStreams, options, callback) {
     fontStream.on('finish', function() {
         var data = [];
         var svgs = parts.join('');
-        data.push({
-            fileType : "svg",
-            content : svgs
-        });
-        var ttfFontBuffer = makeTTF(svgs);
-        data.push({
-            fileType : "ttf",
-            content : new Buffer(ttfFontBuffer)
-        });
-        data.push({
-            fileType : "eot",
-            content: new Buffer(makeEOT(ttfFontBuffer))
-        });
-        data.push({
-            fileType : "woff",
-            content: new Buffer(makeWOFF(ttfFontBuffer))
-        });
-        data.push({
-            fileType : "woff2",
-            content: new Buffer(makeWOFF2(ttfFontBuffer))
-        });
-        callback(null, data);
+        try {
+            data.push({
+                fileType : "svg",
+                content : svgs
+            });
+            var ttfFontBuffer = makeTTF(svgs);
+            data.push({
+                fileType : "ttf",
+                content : new Buffer(ttfFontBuffer)
+            });
+            data.push({
+                fileType : "eot",
+                content: new Buffer(makeEOT(ttfFontBuffer))
+            });
+            data.push({
+                fileType : "woff",
+                content: new Buffer(makeWOFF(ttfFontBuffer))
+            });
+            data.push({
+                fileType : "woff2",
+                content: new Buffer(makeWOFF2(ttfFontBuffer))
+            });
+            callback(null, data);
+        }catch(e) {
+            callback(e);
+        }
     });
     iconStreams.forEach(function(v) {
         if(v !== null) {
